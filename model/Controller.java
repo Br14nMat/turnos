@@ -39,6 +39,9 @@ public class Controller {
 
         if(actual.getSaltadas() == 3){
             eliminarTurnoActual();
+            System.out.println("entre");
+        }else if(head == null){
+            return;
         }else{
             actual.setSaltadas(actual.getSaltadas() + 1);
             actual = actual.getNext();
@@ -53,10 +56,11 @@ public class Controller {
 
         if(actual == null){
             return;
-        }
-
-
-        if(actual == head){
+        }else if(actual == head && head == tail) {
+        	head = null;
+        	tail = null;
+            actual = null;
+        }else if(actual == head){
             head = actual.getNext();
 
             actual.setNext(null);
@@ -64,9 +68,10 @@ public class Controller {
 
             tail.setNext(head);
             head.setPrevious(tail);
-        }
 
-        if(actual == tail){
+            actual = head;
+
+        }else if(actual == tail){
             tail = actual.getPrevious();
 
             actual.setNext(null);
@@ -74,19 +79,22 @@ public class Controller {
 
             tail.setNext(head);
             head.setPrevious(tail);
+            actual = head;
+
+        }else{
+            Turno siguiente = actual.getNext();
+
+            actual.getPrevious().setNext(actual.getNext());
+            actual.getNext().setPrevious(actual.getPrevious());
+
+            actual.setNext(null);
+            actual.setNext(null);
+
+            actual = siguiente;
 
         }
 
-        System.out.println(actual.getPrevious());
-        System.out.println();
-
-        actual.getPrevious().setNext(actual.getNext());
-        actual.getNext().setPrevious(actual.getPrevious());
-
-        pasarTurno();
-
-        actual.setNext(null);
-        actual.setNext(null);
+        
 
     }
 
